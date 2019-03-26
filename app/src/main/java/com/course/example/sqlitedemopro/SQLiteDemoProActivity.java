@@ -3,9 +3,11 @@ package com.course.example.sqlitedemopro;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.database.*;
 import android.database.sqlite.*;
+import android.provider.SyncStateContract;
 import android.util.Log;
 import android.widget.TextView;
 import android.content.ContentValues;
@@ -28,9 +30,14 @@ public class SQLiteDemoProActivity extends Activity {
         
         //let textview widget scroll
         text.setMovementMethod(new ScrollingMovementMethod());
-        
+
+//        db = openOrCreateDatabase(helper.DATABASE_NAME,
+//                Context.MODE_PRIVATE, null);
+//        db.execSQL("DROP TABLE IF EXISTS " + helper.TABLE_NAME);
+//        db.execSQL(helper.CREATE_TABLE);
+
         helper = new SQLHelper(this);
-        
+
         //create database
         try {
         	db = helper.getWritableDatabase();
@@ -39,25 +46,16 @@ public class SQLiteDemoProActivity extends Activity {
         						}
             
         //insert records        
-        helper.addAnimal(new Animal("tiger", 4));
-        helper.addAnimal(new Animal("zebra", 23));
-        helper.addAnimal(new Animal("buffalo", 13));
-        helper.addAnimal(new Animal("lion", 37));
-        helper.addAnimal(new Animal("yak", 18));
-                    
-        
-        //update buffalo to gorilla
-    	helper.updateAnimal(new Animal("buffalo"), new Animal("gorilla"));
-    	
-    	//delete record
-    	helper.deleteAnimal(new Animal("tiger"));
+     //   helper.addCourse(new Course("CS 480", "PEPE","3:30"));
+
+
         
     	//query database
-        ArrayList<Animal> animalList = helper.getAnimalList();
+        ArrayList<Course> courseList = helper.getCourseList();
         
         //write contents of list to screen        
-        for (Animal item : animalList) {
-        	text.append(item.getName() + " " + item.getQuantity() + "\n" );   
+        for (Course item : courseList) {
+        	text.append(item.getName() + " " + item.getTeacher() + "\n" );
         }
         
     }

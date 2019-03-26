@@ -13,16 +13,17 @@ public class SQLHelper extends SQLiteOpenHelper {
 	
 	public static final String DATABASE_NAME = "zoo.db";
 	public static final int DATABASE_VERSION = 4;
-	public static final String TABLE_NAME = "animals";
+	public static final String TABLE_NAME = "courses";
 	public static final String KEY_NAME = "name";
-	public static final String KEY_Q = "quantity";
+	public static final String KEY_TEACHER = "teacher";
+	public static final String KEY_TIME = "time";
 	public static final String KEY_ID = "id integer primary key autoincrement";
-	public static final String CREATE_TABLE = "CREATE TABLE animals ("
-			+ KEY_ID + "," + KEY_NAME + " text,"
-			+ KEY_Q + " integer);";
+	public static final String CREATE_TABLE = "CREATE TABLE courses ("
+			+ KEY_ID + "," + KEY_NAME + " text," + KEY_TEACHER + " text, "
+			+ KEY_TIME + " text);";
 	
 	private ContentValues values;
-	private ArrayList<Animal> animalList;
+	private ArrayList<Course> CourseList;
 	private Cursor cursor;
 
 	public SQLHelper(Context context) {
@@ -49,28 +50,29 @@ public class SQLHelper extends SQLiteOpenHelper {
 	}
 	
 	//add animal to database
-	public void addAnimal(Animal item) {
+	public void addCourse(Course item) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		values = new ContentValues();
         values.put(KEY_NAME, item.getName());
-        values.put(KEY_Q, item.getQuantity());
-        db.insert(TABLE_NAME, null, values);
+        values.put(KEY_TEACHER, item.getTeacher());
+		values.put(KEY_TIME, item.getTime());
+		db.insert(TABLE_NAME, null, values);
         Log.d("SQLiteDemo", item.getName() + " added");
         db.close();
 	}
 	
 	//update Animal name in database
-	public void updateAnimal(Animal item, Animal newItem){
-		SQLiteDatabase db = this.getWritableDatabase();
-		values = new ContentValues();
-        values.put(KEY_NAME, newItem.getName());
-        db.update(TABLE_NAME, values, KEY_NAME + "=?", new String[] {item.getName()});
-        Log.d("SQLiteDemo", item.getName() + " updated");
-        db.close();
-	}
-	
+//	public void updateAnimal(Animal item, Animal newItem){
+//		SQLiteDatabase db = this.getWritableDatabase();
+//		values = new ContentValues();
+//        values.put(KEY_NAME, newItem.getName());
+//        db.update(TABLE_NAME, values, KEY_NAME + "=?", new String[] {item.getName()});
+//        Log.d("SQLiteDemo", item.getName() + " updated");
+//        db.close();
+//	}
+//
 	//delete animal from database
-	public void deleteAnimal(Animal item){
+	public void deleteCourse(Course item){
 		SQLiteDatabase db = this.getWritableDatabase();
 	    db.delete(TABLE_NAME, KEY_NAME + "=?", new String[] {item.getName()});
 	    Log.d("SQLiteDemo", item.getName() + " deleted");
@@ -78,22 +80,24 @@ public class SQLHelper extends SQLiteOpenHelper {
 		}
 
 	//query database and return ArrayList of all animals
-	public ArrayList<Animal> getAnimalList () {
+	public ArrayList<Course> getCourseList () {
 				
 		SQLiteDatabase db = this.getWritableDatabase();
 	    cursor = db.query(TABLE_NAME, 
-    		new String[] {KEY_NAME, KEY_Q}, 
+    		new String[] {KEY_NAME, KEY_TEACHER,KEY_TIME},
     		null, null, null, null, KEY_NAME);
     
 	    //write contents of Cursor to list
-	    animalList = new ArrayList<Animal>();
+	    CourseList = new ArrayList<Course>();
 	    while (cursor.moveToNext()) {
 	    	String str = cursor.getString(cursor.getColumnIndex(KEY_NAME));
-	    	int count = cursor.getInt(cursor.getColumnIndex(KEY_Q));     
-	    	animalList.add(new Animal(str, count));
+	    	String teach = cursor.getString(cursor.getColumnIndex(KEY_TEACHER));
+			String t = cursor.getString(cursor.getColumnIndex(KEY_TIME));
+
+			CourseList.add(new Course(str,teach,t));
 	    };
 	    db.close();
-	    return animalList;
+	    return CourseList;
     
 	}
 }
