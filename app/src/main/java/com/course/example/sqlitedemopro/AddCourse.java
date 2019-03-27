@@ -15,6 +15,8 @@ public class AddCourse extends Activity {
     private EditText teacher;
     private EditText time;
     private Button add_course_button;
+    private SQLHelper helper;
+
 
 
     @Override
@@ -28,10 +30,14 @@ public class AddCourse extends Activity {
         teacher = (EditText) findViewById(R.id.teacher);
         time = (EditText) findViewById(R.id.time);
         add_course_button = (Button) findViewById(R.id.add_course_button);
+        helper = new SQLHelper(this);
 
         add_course_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                //
+                   helper.addCourse(new Course(name_course.getText().toString(), teacher.getText().toString(),time.getText().toString()));
+                   name_course.setText("");
+                   teacher.setText("");
+                   time.setText("");
             }
         });
 

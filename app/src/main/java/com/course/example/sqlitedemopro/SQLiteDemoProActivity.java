@@ -59,7 +59,7 @@ public class SQLiteDemoProActivity extends Activity {
         
         //write contents of list to screen        
         for (Course item : courseList) {
-        	text.append(item.getName() + " " + item.getTeacher() + " " + item.getTime() +"\n" );
+        	text.append(item.getName() + "    " + item.getTeacher() + "     " + item.getTime() +"\n" );
         }
         
     }
