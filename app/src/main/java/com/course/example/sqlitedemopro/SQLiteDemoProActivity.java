@@ -4,14 +4,18 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.database.*;
 import android.database.sqlite.*;
 import android.provider.SyncStateContract;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.content.ContentValues;
 import android.text.method.ScrollingMovementMethod;
+import android.widget.Toast;
 
 public class SQLiteDemoProActivity extends Activity {
 	
@@ -55,9 +59,38 @@ public class SQLiteDemoProActivity extends Activity {
         
         //write contents of list to screen        
         for (Course item : courseList) {
-        	text.append(item.getName() + " " + item.getTeacher() + "\n" );
+        	text.append(item.getName() + " " + item.getTeacher() + " " + item.getTime() +"\n" );
         }
         
+    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //Takes text in the edit text box
+
+
+        switch (item.getItemId()) {
+
+            case R.id.add:
+
+                try {
+                    Intent i1 = new Intent(this, AddCourse.class);
+                    startActivityForResult(i1,30);
+
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Error, nothing selected", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
     }
     
     //close database
