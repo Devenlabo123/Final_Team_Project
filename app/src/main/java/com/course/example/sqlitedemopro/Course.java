@@ -1,22 +1,28 @@
 package com.course.example.sqlitedemopro;
 
 public class Course {
-    private int id;
+    private int class_id;
     private String name;
     private String teacher;
     private String time;
 
+    public Course(int ids, String n, String teac, String time){
+        this.class_id = ids;
+        this.name = n;
+        this.teacher = teac;
+        this.time = time;
+    }
     public Course(String n, String teac, String time){
         this.name = n;
         this.teacher = teac;
         this.time = time;
     }
 
-    public int getId() {
-        return id;
+    public int getclass_id() {
+        return this.class_id;
     }
     public void setId(int id) {
-        this.id = id;
+        this.class_id = id;
     }
     public String getName() {
         return name;

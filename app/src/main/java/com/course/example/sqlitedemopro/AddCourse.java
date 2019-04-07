@@ -1,7 +1,9 @@
 package com.course.example.sqlitedemopro;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebView;
@@ -34,7 +36,9 @@ public class AddCourse extends Activity {
 
         add_course_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                   helper.addCourse(new Course(name_course.getText().toString(), teacher.getText().toString(),time.getText().toString()));
+                   int a = helper.getCourseList().size();
+                Log.i("Added Number: ",""+a );
+                helper.addCourse(new Course(a,name_course.getText().toString(), teacher.getText().toString(),time.getText().toString()));
                    name_course.setText("");
                    teacher.setText("");
                    time.setText("");

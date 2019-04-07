@@ -6,6 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /** Helper to the database, manages versions and creation */
@@ -71,13 +75,20 @@ public class SQLHelper extends SQLiteOpenHelper {
 //        db.close();
 //	}
 //
-	//delete animal from database
-	public void deleteCourse(Course item){
-		SQLiteDatabase db = this.getWritableDatabase();
-	    db.delete(TABLE_NAME, KEY_NAME + "=?", new String[] {item.getName()});
-	    Log.d("SQLiteDemo", item.getName() + " deleted");
+	// delete animal from database
+	 public void deleteCourse(Course item){
+    //  public void deleteCourse(int item){
+		Log.i("ID:  ","Starting delete");
+        SQLiteDatabase db = this.getWritableDatabase();
+		db.delete(TABLE_NAME,  "name=?", new String[] {((item.getName())).trim()});
+
+		 Log.i("SQLiteDemo",  " deleted");
 	    db.close();
+
 		}
+
+
+
 
 	//query database and return ArrayList of all animals
 	public ArrayList<Course> getCourseList () {
@@ -89,12 +100,14 @@ public class SQLHelper extends SQLiteOpenHelper {
     
 	    //write contents of Cursor to list
 	    CourseList = new ArrayList<Course>();
+	    int count = 1;
 	    while (cursor.moveToNext()) {
 	    	String str = cursor.getString(cursor.getColumnIndex(KEY_NAME));
 	    	String teach = cursor.getString(cursor.getColumnIndex(KEY_TEACHER));
 			String t = cursor.getString(cursor.getColumnIndex(KEY_TIME));
 
-			CourseList.add(new Course(str,teach,t));
+			CourseList.add(new Course(count,str,teach,t));
+			count++;
 	    };
 	    db.close();
 	    return CourseList;
