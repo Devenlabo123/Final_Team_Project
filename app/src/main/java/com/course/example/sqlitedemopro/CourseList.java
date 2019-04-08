@@ -20,7 +20,7 @@ import android.content.ContentValues;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.Toast;
 
-public class SQLiteDemoProActivity extends Activity {
+public class CourseList extends Activity {
 
     private TextView text;
     private SQLiteDatabase db;
