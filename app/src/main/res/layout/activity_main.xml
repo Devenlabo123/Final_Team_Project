@@ -43,6 +43,6 @@
             android:layout_marginTop="100dp"
             android:headerDividersEnabled="false"
             tools:context="com.course.example.sqlitedemopro.ToDoList"/>
-
+        <!--  android:background="#b6f442" -->
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

@@ -25,6 +25,7 @@ public class homepage extends Activity implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
+        setTitle("Homework Application");
         button = findViewById(R.id.button); button.setOnClickListener(this);
         button1 = findViewById(R.id.button1); button1.setOnClickListener(this);
         button2 = findViewById(R.id.button2); button2.setOnClickListener(this);
