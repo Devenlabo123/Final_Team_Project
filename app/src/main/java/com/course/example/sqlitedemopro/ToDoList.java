@@ -2,6 +2,9 @@ package com.course.example.sqlitedemopro;
 
 
 
+import android.app.Activity;
+import android.content.Intent;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,18 +17,47 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-public class ToDoList extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class ToDoList extends Activity implements AdapterView.OnItemClickListener, TextToSpeech.OnInitListener {
     //Define variables
     ListView listView;
     TextView textView;
     EditText note_input;
-    List<String> listItem = new ArrayList<>();
+
+
+    File sdcard;
+    File file_read;
+    InputStream in;
+    InputStreamReader isr;
+    BufferedReader reader;
+
+    private TextToSpeech speaker;
+    int pid;
+    private final String file = "list.txt";
+    private OutputStreamWriter out;
+    FileOutputStream fos = null;
+
+    //Datastores for list items
+    List<String> listItem;
     ArrayAdapter<String> adapter;
+
     private static final String tag = "Widgets";
     int current_pos; //When user clicks Item of list this points to that position in the ArrayList
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,18 +69,86 @@ public class ToDoList extends AppCompatActivity implements AdapterView.OnItemCli
         listView.setOnItemClickListener(this);              //attach listener
         textView = (EditText) findViewById(R.id.textView);
         note_input = findViewById(R.id.editText);
+        speaker = new TextToSpeech(this, this);
+
+        listItem = new ArrayList<>();
 
         //Initializes and sets adapter
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, listItem);
+                android.R.layout.simple_list_item_1
+                , android.R.id.text1, listItem);
         listView.setAdapter(adapter);
 
+
+        try {
+            File file_obj = new File(file);
+            Log.i(tag, "Looking for file");
+            //  if(file_obj.exists()) {
+            Log.i(tag, "File found");
+
+            in = openFileInput(file);
+            isr = new InputStreamReader(in);
+            reader = new BufferedReader(isr);
+            String str = null;
+
+            int count = 0;
+            Log.i(tag, "Starting loop to read list");
+
+            while ((str = reader.readLine()) != null) {
+                Log.i(tag, str);
+                adapter.add(str);
+            }
+
+            reader.close();
+
+        }   catch(IOException e){
+            Log.i(tag,"list.txt file not found");
+        }
+
     }
+
+
+
+
+    public void speak(String output){
+        // speaker.speak(output, TextToSpeech.QUEUE_FLUSH, null);  //for APIs before 21
+        speaker.speak(output, TextToSpeech.QUEUE_FLUSH, null, "Id 0");
+    }
+
+
+
 
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
+
+
+
+    public void onInit(int status) {
+        // status can be either TextToSpeech.SUCCESS or TextToSpeech.ERROR.
+        if (status == TextToSpeech.SUCCESS) {
+            // Set preferred language to US english.
+            // If a language is not be available, the result will indicate it.
+            int result = speaker.setLanguage(Locale.US);
+
+            //int result = speaker.setLanguage(Locale.FRANCE);
+            if (result == TextToSpeech.LANG_MISSING_DATA ||
+                    result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                // Language data is missing or the language is not supported.
+                Log.e(tag, "Language is not available.");
+            } else {
+                // The TTS engine has been successfully initialized
+                speak("Welcome");
+                Log.i(tag, "TTS Initialization successful.");
+            }
+        } else {
+            // Initialization failed.
+            Log.e(tag, "Could not initialize TextToSpeech.");
+        }
+    }
+
+
 
 
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -64,16 +164,20 @@ public class ToDoList extends AppCompatActivity implements AdapterView.OnItemCli
         }
         catch(Exception e){
             Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
-
         }
     }
+
+
 
     public boolean onOptionsItemSelected(MenuItem item) {
         //Takes text in the edit text box
         String input = note_input.getText().toString();
 
+
         switch (item.getItemId()) {
+
             case R.id.add:
+
                 try {
                     Log.i(tag, "ADD: " + input);
 
@@ -95,12 +199,14 @@ public class ToDoList extends AppCompatActivity implements AdapterView.OnItemCli
                     }
 
                     current_pos = -1; //Resets position
-                    return true;
+                    return speak_answer(input + " Was added");
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Error, nothing selected", Toast.LENGTH_SHORT).show();
                     return true;
                 }
+
             case R.id.delete:
+
                 try {
                     Log.i(tag, "Delete: " + input);
                     Log.i(tag, "Current pos: " + current_pos);
@@ -123,26 +229,28 @@ public class ToDoList extends AppCompatActivity implements AdapterView.OnItemCli
                     //Resets the edit text box and current position
                     note_input.setText("");
                     current_pos = -1;
-                    return true;
+                    return speak_answer(input + " Was deleted");
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Nothing selected to delete", Toast.LENGTH_SHORT).show();
                     return true;
                 }
+
             case R.id.update:
+
                 try {
 
                     Log.i(tag, "Update: " + input);
                     Log.i(tag, "Current pos: " + current_pos);
 
-                    //Updates the adapter
-                    adapter.remove(listItem.get(current_pos));
-                    adapter.insert(current_pos+1 + ".    " + input,current_pos);
+                    String orig = listItem.get(current_pos);
 
                     //Updates the ArrayList
                     listItem.remove(current_pos); //Removes item from list
                     listItem.add(current_pos, current_pos+1 + ".    " + input);
                     listItem = remake_array(listItem); //Remakes list so that number labels are in order
 
+                    adapter.clear();
+                    adapter.addAll(listItem);
                     adapter.notifyDataSetChanged();
 
                     Log.i(tag, "After Update");
@@ -151,22 +259,30 @@ public class ToDoList extends AppCompatActivity implements AdapterView.OnItemCli
                         Log.i(tag, i + ": " + listItem.get(i));
                     }
 
-
-
                     note_input.setText("");
                     current_pos = -1;
-                    return true;
+                    return speak_answer(orig + " was changed to " + input);
                 } catch (Exception e) {
                     Toast.makeText(getApplicationContext(), "Nothing selected to update", Toast.LENGTH_SHORT).show();
                     return true;
                 }
                 //If the user presses the close or save button it closes the app
             case R.id.close:
-                finish();
+                //Save contents of file to list.txt
+                add_to_file(file);
+                Log.i(tag, "Saved contents of list to file");
+
+                Intent i1 = new Intent(this, homepage.class);
+                startActivityForResult(i1,30);
                 return true;
 
             case R.id.save:
-                finish();
+                //Save contents of file to list.txt
+                add_to_file(file);
+                Log.i(tag, "Saved contents of list to file");
+
+                Intent i2 = new Intent(this, homepage.class);
+                startActivityForResult(i2,30);
                 return true;
 
             default:
@@ -182,7 +298,6 @@ public class ToDoList extends AppCompatActivity implements AdapterView.OnItemCli
             listItemtemp.add(i + 1 + ".    " + lists.get(i).substring(3).trim());
         }
         return listItemtemp;
-
     }
 
     public ArrayAdapter<String> remake_adapter(ArrayAdapter<String> a) {
@@ -195,4 +310,40 @@ public class ToDoList extends AppCompatActivity implements AdapterView.OnItemCli
         }
         return a;
     }
+
+    //On item add, update and delete speaks to user
+    public boolean speak_answer(String text_speak){
+        try {
+            if (speaker.isSpeaking()) {
+                Log.i(tag, "Speaker Speaking");
+                speaker.stop();
+                // else start speech
+            } else {
+                Log.i(tag, "Speaker Not Already Speaking");
+                speak(text_speak);
+            }
+        }
+        catch(Exception e){
+            Log.e(tag, "Text to speech error");
+        }
+        return true;
+    }
+
+
+    //Method to add current items to a list.txt file
+    public void add_to_file(String file_names){
+        try {
+            out = new OutputStreamWriter(openFileOutput(file_names, MODE_APPEND)); // also try MODE_APPEND
+            fos = openFileOutput(file,MODE_PRIVATE);
+            for(int i = 0; i<listItem.size(); i++){
+                out.write(listItem.get(i));
+                fos.write((listItem.get(i)+"\n").getBytes());
+                Log.i(tag,"Wrote " + listItem.get(i));
+            }
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
