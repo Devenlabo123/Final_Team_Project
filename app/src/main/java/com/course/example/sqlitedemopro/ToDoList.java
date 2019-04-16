@@ -2,8 +2,10 @@ package com.course.example.sqlitedemopro;
 
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -59,6 +62,7 @@ public class ToDoList extends Activity implements AdapterView.OnItemClickListene
 
 
 
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,15 +74,26 @@ public class ToDoList extends Activity implements AdapterView.OnItemClickListene
         textView = (EditText) findViewById(R.id.textView);
         note_input = findViewById(R.id.editText);
         speaker = new TextToSpeech(this, this);
-
         listItem = new ArrayList<>();
 
         //Initializes and sets adapter
         adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1
-                , android.R.id.text1, listItem);
-        listView.setAdapter(adapter);
+                android.R.layout.simple_list_item_1, android.R.id.text1, listItem){
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view =super.getView(position, convertView, parent);
 
+                TextView textView=(TextView) view.findViewById(android.R.id.text1);
+
+                /*YOUR CHOICE OF COLOR*/
+                textView.setTextColor(Color.BLUE);
+                textView.setBackgroundColor(Color.parseColor("#b6f442"));
+
+                return view;
+            }
+        };
+
+        listView.setAdapter(adapter);
 
         try {
             File file_obj = new File(file);
