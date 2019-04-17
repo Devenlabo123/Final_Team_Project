@@ -38,10 +38,23 @@ public class AddCourse extends Activity {
             public void onClick(View view) {
                    int a = helper.getCourseList().size();
                 Log.i("Added Number: ",""+a );
-                helper.addCourse(new Course(a,name_course.getText().toString(), teacher.getText().toString(),time.getText().toString()));
-                   name_course.setText("");
-                   teacher.setText("");
-                   time.setText("");
+                String t = time.getText().toString();
+                    if(t.matches("\\b((1[0-2]|0?[1-9]):([0-5][0-9]) ([AaPp][Mm]))")){
+
+                        Log.i("Time entered is: ", "t.substring(0,t.indexOf(\" \"))");
+                    helper.addCourse(new Course(a,name_course.getText().toString(), teacher.getText().toString(),time.getText().toString()));
+                    name_course.setText("");
+                    teacher.setText("");
+                    time.setText("");
+                }
+                else {
+                    name_course.setText("");
+                    teacher.setText("");
+                    time.setText("Course not added, Please enter time in correct format (eg. 2:00 PM)");
+                    time.setSelectAllOnFocus(true);
+                }
+
+
             }
         });
 
