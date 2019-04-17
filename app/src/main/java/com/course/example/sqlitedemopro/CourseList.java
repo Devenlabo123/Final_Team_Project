@@ -126,7 +126,7 @@ public class CourseList extends Activity {
 
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menu2, menu);
         return true;
     }
 

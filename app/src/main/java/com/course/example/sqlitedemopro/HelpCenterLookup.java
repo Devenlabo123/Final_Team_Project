@@ -34,7 +34,7 @@ public class HelpCenterLookup extends Activity implements OnClickListener {
         String[] subject = courseID.split("-");
         String subjectItem = subject[0];
 
-        switch (subjectItem) {
+        switch (subjectItem.toUpperCase()) {
             case "CS":
                 helpCenter.setText(" CIS SANDBOX \n LOCATION: SMITH 201 \n HOURS: 11AM-11PM");
                 Log.i(tag, "onClick complete.");

@@ -1,10 +1,17 @@
 package com.course.example.sqlitedemopro;
 
+import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
+import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import java.sql.Connection;
@@ -29,6 +36,7 @@ public class SQLHelper extends SQLiteOpenHelper {
 	private ContentValues values;
 	private ArrayList<Course> CourseList;
 	private Cursor cursor;
+
 
 	public SQLHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -63,6 +71,7 @@ public class SQLHelper extends SQLiteOpenHelper {
 		db.insert(TABLE_NAME, null, values);
         Log.d("SQLiteDemo", item.getName() + " added");
         db.close();
+
 	}
 	
 	//update Animal name in database

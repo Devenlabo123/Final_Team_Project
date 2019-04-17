@@ -75,6 +75,7 @@ public class ToDoList extends Activity implements AdapterView.OnItemClickListene
 
         layoutToAnimate1 = (LinearLayout)findViewById(R.id.layout01);
         layoutToAnimate1.setVisibility(View.GONE);
+        setTitle("To Do List");
 
 
         //Variables for XML components
