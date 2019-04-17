@@ -3,6 +3,7 @@ package com.course.example.sqlitedemopro;
 import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -58,15 +59,19 @@ public class AddCourse extends Activity {
             channel.enableVibration(true);
             mNotificationManager.createNotificationChannel(channel);
         }
+
+        Intent notifyIntent = new Intent(this, homepage.class);
+
+        //create pending intent to wrap intent so that it
+        //will fire when notification selected.
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         mBuilder = new NotificationCompat.Builder(this, "default")
                 .setSmallIcon(R.drawable.ic_launcher)
-              //  .setContentTitle(textTitle)
-              //  .setContentText(textContent)
+                .setContentIntent(pendingIntent)
                 .setAutoCancel(true)     //cancel Notification after clicking on it
-                //   .setSound(Uri.parse("android.resource://com.course.example.notify/" + R.raw.photon))
-                //set Android to vibrate when notified
                 .setVibrate(new long[]{1000, 1000, 2000, 2000})
-                //allow heads up notification; otherwise use PRIORITY_DEFAULT
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         add_course_button.setOnClickListener(new View.OnClickListener() {
