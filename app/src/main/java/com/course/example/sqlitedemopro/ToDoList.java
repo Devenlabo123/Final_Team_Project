@@ -14,9 +14,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,6 +63,8 @@ public class ToDoList extends Activity implements AdapterView.OnItemClickListene
     private static final String tag = "Widgets";
     int current_pos; //When user clicks Item of list this points to that position in the ArrayList
 
+    private LinearLayout layoutToAnimate1;
+
 
 
     @SuppressLint("ResourceType")
@@ -67,6 +72,11 @@ public class ToDoList extends Activity implements AdapterView.OnItemClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        layoutToAnimate1 = (LinearLayout)findViewById(R.id.layout01);
+        layoutToAnimate1.setVisibility(View.GONE);
+        setTitle("To Do List");
+
 
         //Variables for XML components
         listView = (ListView) findViewById(R.id.list_view);
@@ -200,6 +210,9 @@ public class ToDoList extends Activity implements AdapterView.OnItemClickListene
                     adapter.add(adapter.getCount() + 1 + ".    " + input);
                     adapter.notifyDataSetChanged();
 
+                    layoutToAnimate1.setVisibility(View.GONE);
+
+
                     //Every time after first adding new items. It appends the ArrayList too
                     if (adapter.getCount() != listItem.size()) {
                         Log.i(tag, "Added by list...");
@@ -236,6 +249,8 @@ public class ToDoList extends Activity implements AdapterView.OnItemClickListene
                         Log.i(tag, i + ": " + listItem.get(i));
                     }
 
+                    layoutToAnimate1.setVisibility(View.GONE);
+
                     //Following three lines are to update the adapter
                     adapter.clear();
                     adapter.addAll(listItem);
@@ -264,9 +279,12 @@ public class ToDoList extends Activity implements AdapterView.OnItemClickListene
                     listItem.add(current_pos, current_pos+1 + ".    " + input);
                     listItem = remake_array(listItem); //Remakes list so that number labels are in order
 
+                    layoutToAnimate1.setVisibility(View.GONE);
+
                     adapter.clear();
                     adapter.addAll(listItem);
                     adapter.notifyDataSetChanged();
+
 
                     Log.i(tag, "After Update");
 
@@ -281,11 +299,53 @@ public class ToDoList extends Activity implements AdapterView.OnItemClickListene
                     Toast.makeText(getApplicationContext(), "Nothing selected to update", Toast.LENGTH_SHORT).show();
                     return true;
                 }
+
+            case R.id.complete:
+                try {
+                    Log.i(tag, "Delete: " + input);
+                    Log.i(tag, "Current pos: " + current_pos);
+
+
+                    listItem.remove(current_pos); //Removes item from list
+                    listItem = remake_array(listItem); //Remakes list so that number labels are in order
+
+                    Log.i(tag, "After Remake");
+
+                    for (int i = 0; i < listItem.size(); i++) {
+                        Log.i(tag, i + ": " + listItem.get(i));
+                    }
+
+                    //Following three lines are to update the adapter
+                    adapter.clear();
+                    adapter.addAll(listItem);
+                    adapter.notifyDataSetChanged();
+
+                    Animation an1 =  AnimationUtils.loadAnimation(this, R.anim.snazzytext);
+                    an1.setAnimationListener(new MyAnimationListener());
+                    layoutToAnimate1.setVisibility(View.VISIBLE);
+                    layoutToAnimate1.startAnimation(an1);
+
+                    an1.setAnimationListener(new MyAnimationListener());
+                    layoutToAnimate1.setVisibility(View.VISIBLE);
+
+
+                    //Resets the edit text box and current position
+                    note_input.setText("");
+                    current_pos = -1;
+                    return speak_answer(input + " Was completed");
+
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), "Nothing selected to complete", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+
                 //If the user presses the close or save button it closes the app
             case R.id.close:
                 //Save contents of file to list.txt
                 add_to_file(file);
                 Log.i(tag, "Saved contents of list to file");
+
+                layoutToAnimate1.setVisibility(View.GONE);
 
                 Intent i1 = new Intent(this, homepage.class);
                 startActivityForResult(i1,30);
@@ -295,6 +355,9 @@ public class ToDoList extends Activity implements AdapterView.OnItemClickListene
                 //Save contents of file to list.txt
                 add_to_file(file);
                 Log.i(tag, "Saved contents of list to file");
+
+                layoutToAnimate1.setVisibility(View.GONE);
+
 
                 Intent i2 = new Intent(this, homepage.class);
                 startActivityForResult(i2,30);
@@ -361,4 +424,23 @@ public class ToDoList extends Activity implements AdapterView.OnItemClickListene
         }
     }
 
+}
+class MyAnimationListener implements Animation.AnimationListener {
+
+    @Override
+    public void onAnimationStart(Animation animation) {
+
+    }
+
+    public void onAnimationEnd(Animation animation) {
+
+
+
+
+    }
+
+    @Override
+    public void onAnimationRepeat(Animation animation) {
+
+    }
 }

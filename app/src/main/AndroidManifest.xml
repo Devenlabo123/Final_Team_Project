@@ -4,6 +4,7 @@
     android:versionCode="1"
     android:versionName="1.0" >
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:icon="@drawable/ic_launcher"
@@ -24,8 +25,9 @@
         </activity>
 
         <activity
-            android:name=".AddCourse"
-            android:label="Add_course_page"/>
+        android:name=".AddCourse"
+        android:label="Add_course_page"/>
+
         <activity
             android:name=".ToDoList"
             android:label="Todo_List"/>

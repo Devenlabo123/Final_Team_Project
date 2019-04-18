@@ -24,17 +24,18 @@
             android:layout_height="match_parent"
             android:format12Hour="yyyy-MM-dd H:mm:ss EEEE"
             android:textColor="#00FF00"
-            android:textSize="35sp" />
+            android:textSize="20sp" />
 
 
         <EditText
             android:id="@+id/editText"
             android:layout_width="1000dp"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:layout_marginTop="50dp"
+            android:ems="10"
             android:hint="Enter text here..."
-            android:inputType="textPersonName"/>
+            android:inputType="textPersonName" />
+
 
         <ListView
             android:id="@+id/list_view"
@@ -42,7 +43,24 @@
             android:layout_height="match_parent"
             android:layout_marginTop="100dp"
             android:headerDividersEnabled="false"
-            tools:context="com.course.example.sqlitedemopro.ToDoList"/>
+            tools:context="com.course.example.sqlitedemopro.ToDoList" />
         <!--  android:background="#b6f442" -->
+        <LinearLayout
+            android:id="@+id/layout01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/text01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/customborder"
+                android:gravity="center|center_vertical"
+                android:text="GREAT JOB!"
+                android:textColor="@android:color/background_dark"
+                android:textSize="30dp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

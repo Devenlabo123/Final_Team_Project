@@ -18,6 +18,10 @@
         android:id="@+id/complete"
         android:title="COMPLETE"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/update"
+        android:title="UPDATE"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/save"
