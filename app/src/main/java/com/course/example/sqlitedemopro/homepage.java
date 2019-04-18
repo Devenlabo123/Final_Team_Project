@@ -1,19 +1,12 @@
 package com.course.example.sqlitedemopro;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TableLayout;
-import android.widget.TextView;
-
-import java.util.ArrayList;
 
 public class homepage extends Activity implements View.OnClickListener {
 
@@ -21,6 +14,7 @@ public class homepage extends Activity implements View.OnClickListener {
     private Button button1;
     private Button button2;
     private Button button3;
+    private Button button4;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +24,7 @@ public class homepage extends Activity implements View.OnClickListener {
         button1 = findViewById(R.id.button1); button1.setOnClickListener(this);
         button2 = findViewById(R.id.button2); button2.setOnClickListener(this);
         button3 = findViewById(R.id.button3); button3.setOnClickListener(this);
+        button4 = findViewById(R.id.button4); button4.setOnClickListener(this);
     }
 
     @Override
@@ -54,6 +49,12 @@ public class homepage extends Activity implements View.OnClickListener {
                 Intent i4 = new Intent(this, HelpCenterLookup.class);
                 startActivityForResult(i4,30);
             }
+            else if (v.getId() == R.id.button4) {
+                Log.i("Button Clicked: ", "Map");
+                Intent i5 = new Intent(this, Map.class);
+                startActivityForResult(i5,30);
+            }
+
 
 
         } catch (Exception e) {
