@@ -79,7 +79,7 @@ public class Map extends FragmentActivity implements OnMapReadyCallback {
         // Initialize a TabSpec for tab2 and add it to the TabHost
         spec = tabs.newTabSpec("tag2");        //create new tab specification
         spec.setContent(R.id.tab2);            //add view tab content
-        spec.setIndicator("BlackBoard");
+        spec.setIndicator("Web View");
         tabs.addTab(spec);                    //put tab in TabHost container
 
         button = (Button) findViewById(R.id.Button01);
