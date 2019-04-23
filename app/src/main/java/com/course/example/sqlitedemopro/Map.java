@@ -38,6 +38,7 @@ public class Map extends FragmentActivity implements OnMapReadyCallback {
     private WebView webView;
     private Button button;
     private TextView selection;
+    private String URLBB = "https://blackboard.bentley.edu/webapps/login/";
     // Guide URLs
     private final String[] bentleyItems = {"","https://www.bentley.edu/centers/acelab/about-acelab",
             "https://twitter.com/cissandbox?lang=en","https://www.bentley.edu/centers/clic",
@@ -78,7 +79,7 @@ public class Map extends FragmentActivity implements OnMapReadyCallback {
         // Initialize a TabSpec for tab2 and add it to the TabHost
         spec = tabs.newTabSpec("tag2");        //create new tab specification
         spec.setContent(R.id.tab2);            //add view tab content
-        spec.setIndicator("Web");
+        spec.setIndicator("BlackBoard");
         tabs.addTab(spec);                    //put tab in TabHost container
 
         button = (Button) findViewById(R.id.Button01);
