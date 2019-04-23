@@ -2,6 +2,7 @@ package com.course.example.sqlitedemopro;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -15,6 +16,8 @@ public class homepage extends Activity implements View.OnClickListener {
     private Button button2;
     private Button button3;
     private Button button4;
+    private Button button5;
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +28,7 @@ public class homepage extends Activity implements View.OnClickListener {
         button2 = findViewById(R.id.button2); button2.setOnClickListener(this);
         button3 = findViewById(R.id.button3); button3.setOnClickListener(this);
         button4 = findViewById(R.id.button4); button4.setOnClickListener(this);
+        button5 = findViewById(R.id.button5); button5.setOnClickListener(this);
     }
 
     @Override
@@ -54,6 +58,13 @@ public class homepage extends Activity implements View.OnClickListener {
                 Intent i5 = new Intent(this, Map.class);
                 startActivityForResult(i5,30);
             }
+            else if (v.getId() == R.id.button5) {
+                Log.i("Button Clicked: ", "Blackboard");
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://blackboard.bentley.edu"));
+                startActivity(browserIntent);
+            }
+
+
 
 
 
