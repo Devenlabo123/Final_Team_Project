@@ -20,6 +20,7 @@
     <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_below="@id/head_text"
         android:layout_marginTop="0dp"
         android:columnCount="2"
@@ -29,8 +30,7 @@
         <Button
             android:id="@+id/button"
             android:layout_gravity="center_horizontal"
-            android:text="Course \n List"
-
+            android:text="Current Course \n List"
             android:layout_height="match_parent"/>
 
         <Button
@@ -60,7 +60,7 @@
         <Button
             android:id="@+id/button4"
             android:layout_gravity="center_horizontal"
-            android:text="Map and Additional \n Resources"
+            android:text="Map and More \n Resources"
 
             android:layout_height="match_parent"/>
 
