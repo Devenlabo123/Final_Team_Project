@@ -12,8 +12,8 @@
         android:id="@+id/head_text"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:maxHeight="150dp"
-        android:maxWidth="150dp"
+        android:maxHeight="250dp"
+        android:maxWidth="250dp"
         android:layout_centerHorizontal="true"
         />
 
@@ -22,41 +22,53 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/head_text"
         android:layout_marginTop="0dp"
-        android:columnCount="1"
-        android:rowCount="6">
+        android:columnCount="2"
+        android:rowCount="3">
 
 
         <Button
             android:id="@+id/button"
             android:layout_gravity="center_horizontal"
-            android:text="Course List" />
+            android:text="Course \n List"
+
+            android:layout_height="match_parent"/>
 
         <Button
             android:id="@+id/button1"
             android:layout_gravity="center_horizontal"
-            android:text="Grade Calculator" />
+            android:text="Grade \n Calculator"
+
+            android:layout_height="match_parent"/>
 
 
         <Button
             android:id="@+id/button2"
             android:layout_gravity="center_horizontal"
-            android:text="To Do List" />
+            android:text="To Do List"
+
+            android:layout_height="match_parent"/>
 
         <Button
             android:id="@+id/button3"
             android:layout_gravity="center_horizontal"
-            android:text="Help Center" />
+            android:text="Help Center"
+
+            android:layout_height="match_parent"/>
 
 
 
         <Button
             android:id="@+id/button4"
             android:layout_gravity="center_horizontal"
-            android:text="Map and Additional Resources" />
+            android:text="Map and Additional \n Resources"
+
+            android:layout_height="match_parent"/>
 
         <Button
             android:id="@+id/button5"
             android:layout_gravity="center_horizontal"
-            android:text="Bentley Blackboard" />
+            android:text="Bentley \n Blackboard"
+
+            android:layout_height="match_parent"/>
     </GridLayout>
 </RelativeLayout>
