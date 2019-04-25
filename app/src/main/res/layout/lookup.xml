@@ -8,14 +8,17 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Help Center Lookup!" />
+        android:text="Help Center Lookup!"
+        android:textColor="#000fff"
+        android:textSize="20dp"/>
 
     <EditText
         android:id="@+id/searchbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Enter in subject-course format (e.g.: CS-480)"
-        android:inputType="text" />
+        android:hint="Enter in subject-course format (e.g. CS-480)"
+        android:inputType="text"
+        android:textSize="15dp"/>
 
     <Button
         android:id="@+id/search"
@@ -23,7 +26,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Search"
-        android:textColor="#000fff" />
+        android:textColor="#000fff"
+        android:textSize="20dp"/>
 
 
     <TextView
